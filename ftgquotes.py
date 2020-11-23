@@ -14,7 +14,7 @@ class quotebuilderMod(loader.Module):
     </svg>
     '''
     html = """
-    <!DOCTYPE html />
+    <!DOCTYPE html/>
     <html><head><meta charset="utf-8"/> 
     <style>
     """
@@ -64,7 +64,7 @@ class quotebuilderMod(loader.Module):
         junkfiles = ["quote.png", "quote.webp", "quote.html"]
         css = requests.get(url="https://nivolog.ga/quotes/quotes.css").text
         html += css
-        html += "</style></head><body>\n"
+        html += "</style></head><body style=\"padding-bottom: 50px;\">\n"
         html += '<div class="message">\n'
         fwd = reply.fwd_from
         fromid = None
