@@ -59,7 +59,7 @@ class QuoteBuilderMod(loader.Module):
       Quote this!
       """
       args = utils.get_args_raw(message.message).split()
-      count = int(args[0]) if args else 0
+      count = int(args[0])-1 if args else 0
       html = self.html
       client = self.client
       if not message.is_reply:
