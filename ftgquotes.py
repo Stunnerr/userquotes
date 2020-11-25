@@ -22,7 +22,6 @@ class QuoteBuilderMod(loader.Module):
       <html><head><meta charset="utf-8"/> 
       <style>
     """
-    avatar = requests.get(url="https://nivolog.ga/quotes/ava.html").text
     wkoptions = {
       "transparent":                  "",
       "enable-local-file-access":     "",
@@ -47,7 +46,7 @@ class QuoteBuilderMod(loader.Module):
       if sender and sender.photo:
         avatar = await self.client.download_profile_photo(sender)
       else:
-        imgkit.from_string(self.format_avatar(name, sender.id if sender else 8), output_path="tempava.png",options=self.wkaoptions)
+        imgkit.from_string(self.format_avatar(name, sender.id if sender else 0), output_path="tempava.png",options=self.wkaoptions)
       return avatar
 
     async def client_ready(self, client, db):
@@ -59,7 +58,7 @@ class QuoteBuilderMod(loader.Module):
       Quote this!
       """
       args = utils.get_args_raw(message.message).split()
-      count = int(args[0])-1 if args else 0
+      count = int(args[0]) - 1 if args else 0
       html = self.html
       client = self.client
       if not message.is_reply:
@@ -87,7 +86,7 @@ class QuoteBuilderMod(loader.Module):
         fromname = fromid.title
       except AttributeError:
         fromname = fwd.from_name if fwd and fwd.from_name else fromid.first_name
-      html += f'<div class="sender c{fromid.id % 7 if fromid else 1}">{fromname}</div>\n'
+      html += f'<div class="sender c{fromid.id % 7 if fromid else 0}">{fromname}</div>\n'
       if reply.is_reply:
         tmpr = await reply.get_reply_message()
         html += f'<div class="reply"></div>'
@@ -95,7 +94,7 @@ class QuoteBuilderMod(loader.Module):
       html += f'<div class="text">{text}</div>'
       prevsender = fromid
       pic = await self.get_avatar(fromid, fromname)
-      messages = await client.get_messages(reply.to_id, min_id=reply.id, limit=count, reverse=True)
+      messages = await client.get_messages(reply.chat, min_id=reply.id, limit=count, reverse=True)
       for msg in messages:
         fwd = msg.fwd_from
         fromid = None
@@ -117,7 +116,7 @@ class QuoteBuilderMod(loader.Module):
         except AttributeError:
           fromname = fwd.from_name if fwd and fwd.from_name else fromid.first_name
         pic = await self.get_avatar(fromid, fromname)
-        html += f'<div class="sender c{fromid.id % 7 if fromid else 1}">{fromname}</div>\n'
+        html += f'<div class="sender c{fromid.id % 7 if fromid else 0}">{fromname}</div>\n'
         text = "<br/>".join(msg.text.splitlines())
         html += f'<div class="text">{text}</div>'
         prevsender = fromid
