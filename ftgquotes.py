@@ -64,8 +64,7 @@ class QuoteBuilderMod(loader.Module):
         if sender and sender.photo:
             avatar = await self.client.download_profile_photo(sender)
         else:
-            imgkit.from_string(self.format_avatar(name, sender.id if sender else 0),
-                               output_path="tempava.png", options=self.wk_avatar_options)
+            imgkit.from_string(self.format_avatar(name, sender.id if sender else 0), output_path="tempava.png", options=self.wk_avatar_options)
         return avatar
 
     async def client_ready(self, client, db):
@@ -92,7 +91,6 @@ class QuoteBuilderMod(loader.Module):
         junkfiles = ["quote.png", "quote.webp", "quote.html"]
 
         # First message
-        html += '<div class="message">\n'
         fwd = reply.fwd_from  # Entity getter
         fromid = None
         if fwd:
