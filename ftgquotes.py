@@ -171,7 +171,7 @@ class QuoteBuilderMod(loader.Module):
         client = reply.client
         await message.edit("Leaking your personal data..")
         if img.size[1] > 1024:
-            await client.send_file(message.to_id, 'quote.png', reply_to=reply)
+            await client.send_file(message.to_id, 'quote.png', reply_to=reply, force_document=True)
         else:
             await client.send_file(message.to_id, 'quote.webp', reply_to=reply)
         await message.edit("Removing OS..")
