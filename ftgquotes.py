@@ -25,6 +25,7 @@ class QuoteBuilderMod(loader.Module):
     wk_options = {
         "transparent":                  "",
         "enable-local-file-access":     "",
+        "disable-smart-width":          "",
         "encoding":                     "UTF-8",
         "zoom":                         "3.0",
         "xvfb":                         ""
@@ -160,6 +161,7 @@ class QuoteBuilderMod(loader.Module):
             if not "ProtocolUnknownError" in str(e):
                 raise e
         img = Image.open("quote.png").convert("RGBA")
+        print(img.size)
         if (img.size[0] < 513 and img.size[1] < 513):
             cropimg = img
         else:
