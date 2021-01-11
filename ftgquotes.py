@@ -25,7 +25,7 @@ class QuoteBuilderMod(loader.Module):
     wk_options = {
         "transparent":                  "",
         "enable-local-file-access":     "",
-        "disable-smart-width":          "",
+        "width":                        "512",
         "encoding":                     "UTF-8",
         "zoom":                         "3.0",
         "xvfb":                         ""
