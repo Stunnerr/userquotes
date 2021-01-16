@@ -4,7 +4,7 @@ Quotes maker for userbots (currently only FTG is supported)
 ## Usage: 
 Reply to a message with `.quote` (where `.` is prefix you've set in FTG) 
 
-You can provide an amount of quoted messages (`.quote 2` for two msgs)
+You can provide count of quoted messages (`.quote 2` for two msgs)
 
 ## Requirements: 
 - wkhtmltopdf (`sudo apt install wkhtmltopdf` for ubuntu)
