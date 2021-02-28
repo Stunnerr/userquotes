@@ -1,9 +1,9 @@
-import imgkit
+from .. import loader, utils
+from PIL import Image
 import requests
+import imgkit
 import PIL
 import os
-from PIL import Image, ImageDraw
-from .. import loader, utils
 
 
 @loader.tds
@@ -39,23 +39,23 @@ class QuoteBuilderMod(loader.Module):
 
     def create_without_name(self, text, rtext=None, rname=None):
         msg = '<div class="message">\n'
-        if rtext is not None and rname in not None:
+        if rtext is not None and rname is not None:
             msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
         msg += f'<div class="text">{text}</div></div>\n'
         return msg
-        #raise NotImplementedError()
+        # raise NotImplementedError()
 
     def create_with_name(self, text, name, pic, num=0, rtext=None, rname=None):
         msg = '<div class="message">\n'
         msg += f'<div class="sender c{num}">{name}</div>\n'
-        if rtext != None and rname != None:
+        if rtext is not None and rname is not None:
             msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
         msg += f'<div class="text">{text}</div>'
         msg += f'<img src="{pic}" class="avatar">\n'
         msg += self.arrow
         msg += '</div>\n'
         return msg
-        #raise NotImplementedError()
+        # raise NotImplementedError()
 
     def format_avatar(self, name, id):
         return self.avatar.replace("{name}", name[0]).replace("{num}", str(id))
@@ -159,7 +159,7 @@ class QuoteBuilderMod(loader.Module):
             imgkit.from_file("quote.html", "quote.png",
                              options=self.wk_options)
         except Exception as e:
-            if not "ProtocolUnknownError" in str(e):
+            if "ProtocolUnknownError" not in str(e):
                 raise e
         img = Image.open("quote.png").convert("RGBA")
         img = img.crop(img.getbbox())
