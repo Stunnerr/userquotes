@@ -39,7 +39,7 @@ class QuoteBuilderMod(loader.Module):
 
     def create_without_name(self, text, rtext=None, rname=None):
         msg = '<div class="message">\n'
-        if rtext != None and rname != None:
+        if rtext is not None and rname in not None:
             msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
         msg += f'<div class="text">{text}</div></div>\n'
         return msg
@@ -65,13 +65,14 @@ class QuoteBuilderMod(loader.Module):
         if sender and sender.photo:
             avatar = await self.client.download_profile_photo(sender)
         else:
-            imgkit.from_string(self.format_avatar(name, sender.id if sender else 0), output_path="tempava.png", options=self.wk_avatar_options)
+            imgkit.from_string(self.format_avatar(name, sender.id if sender else 0),
+                               output_path="tempava.png", options=self.wk_avatar_options)
         return avatar
 
     async def client_ready(self, client, db):
         self.avatar = requests.get(
-            url="https://nivolog.ga/quotes/ava.html").text
-        css = requests.get(url="https://nivolog.ga/quotes/quotes.css").text
+            url="https://git.io/Jt2vm").text
+        css = requests.get(url="https://git.io/Jt2vO").text
         self.html += css
         self.html += "</style></head><body>\n"
         self.client = client
@@ -161,8 +162,9 @@ class QuoteBuilderMod(loader.Module):
             if not "ProtocolUnknownError" in str(e):
                 raise e
         img = Image.open("quote.png").convert("RGBA")
+        img = img.crop(img.getbbox())
         print(img.size)
-        if (img.size[0] < 513 and img.size[1] < 513):
+        if (img.size[0] < 513 or img.size[1] < 513) and not (img.size[0] < 513 and img.size[1] < 513):
             cropimg = img
         else:
             cropimg = img.resize((512, int(
