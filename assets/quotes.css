@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Cousine&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+body {
+  padding-bottom: 20px;
+}
+
+.reply {
+  border-left: 2px solid #429bdb;
+  font-size: 19pt;
+  margin: 5 7 5 7;
+  color: #71bafa;
+}
+.rname {
+  position: relative;
+  margin: 0 0 0 5pt;
+  font-size: 9pt;
+  top: 0;
+  font-weight: 600;
+}
+
+.message {
+  position: relative;
+  color: white;
+  background: #182533;
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 6px;
+  margin-left: 70px;
+  border-bottom-left-radius: 0;
+  margin-bottom: 10px;
+  left: -10px;
+  max-width: 320px;
+  min-width: 70px;
+  width: max-content;
+  font-family: 'Noto Sans', 'Open Sans', sans-serif;
+  font-size: 20px;
+}
+
+a {
+  color: #70bcf5;
+  text-decoration: none;
+}
+
+code {
+  font-family: 'Cousine', monospace;
+  color: #5a8cb7;
+}
+
+.c0 {
+  color: #fb6169;
+}
+
+.c1 {
+  color: #85de85;
+}
+
+.c2 {
+  color: #b48bf2;
+}
+
+.c3 {
+  color: #faa357;
+}
+
+.c4 {
+  color: #62d4e3;
+}
+
+.c5 {
+  color: #65bdf3;
+}
+
+.c6 {
+  color: #ff5694;
+}
+
+.sender {
+  position: relative;
+  font-size: 9pt;
+  top: 0;
+  margin: 2pt 10pt 0 5pt;
+  font-weight: 600;
+  word-wrap: none;
+}
+
+.text {
+  color: white;
+  position: relative;
+  margin: 0 10pt 2pt 5pt;
+  font-size: 9pt;
+  top: 0;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  width: 40;
+  height: 40;
+  left: -60;
+  bottom: 0;
+}
+
+svg {
+  fill: #182533;
+  position: absolute;
+  left: -13px;
+  bottom: 0;
+}
