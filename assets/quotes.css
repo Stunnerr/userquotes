@@ -32,8 +32,8 @@ body {
   margin-bottom: 10px;
   left: -10px;
   max-width: 320px;
-  min-width: 70px;
-  width: fit-content;
+  min-width: 10px;
+  width: max-content;
   font-family: 'Noto Sans', 'Open Sans', sans-serif;
   font-size: 20px;
 }
