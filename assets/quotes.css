@@ -33,7 +33,7 @@ body {
   left: -10px;
   max-width: 320px;
   min-width: 70px;
-  width: max-content;
+  width: fit-content;
   font-family: 'Noto Sans', 'Open Sans', sans-serif;
   font-size: 20px;
 }
