@@ -103,7 +103,7 @@ class QuoteBuilderMod(loader.Module):
             user = reply.sender
             channel = None
             fromid = user
-        fromname = user.first_name if user else channel.title
+        fromname = user.first_name if user else channel.title if channel else fwd.from_name
         rtext = None
         rname = None
         if reply.is_reply:
@@ -134,7 +134,7 @@ class QuoteBuilderMod(loader.Module):
             else:
                 html += self.create_without_name(text, rtext, rname)
             # Start creating cur message
-            fromname = user.first_name if user else channel.title # Get name
+            fromname = user.first_name if user else channel.title if channel else fwd.from_name  # Get name
             rtext = None
             rname = None
             if msg.is_reply:
