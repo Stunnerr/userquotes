@@ -96,13 +96,13 @@ class QuoteBuilderMod(loader.Module):
         fromid = None
         fwd = reply.fwd_from  # Entity getter
         if fwd:
-			user = reply.forward.sender
-			channel = reply.forward.chat
+            user = reply.forward.sender
+            channel = reply.forward.chat
             fromid = user or channel
-		else:
-			user = reply.sender
+        else:
+            user = reply.sender
             channel = None
-			fromid = user
+            fromid = user
         fromname = user.first_name if user else channel.title
         rtext = None
         rname = None
@@ -121,13 +121,13 @@ class QuoteBuilderMod(loader.Module):
             fwd = msg.fwd_from
             fromid = None
             if fwd:
-    			user = msg.forward.sender
-    			channel = msg.forward.chat
+                user = msg.forward.sender
+                channel = msg.forward.chat
                 fromid = user or channel
-	    	else:
-		    	user = msg.sender
+            else:
+                user = msg.sender
                 channel = None
-			    fromid = user
+                fromid = user
             if not (fromid == prevsender):  # Save prev message
                 html += self.create_with_name(text, fromname, pic,
                                               fromid.id % 7 if fromid else 0, rtext, rname)
