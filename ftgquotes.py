@@ -91,22 +91,19 @@ class QuoteBuilderMod(loader.Module):
             reply = await message.get_reply_message()
         await message.edit("Hacking Pentagon..")
         junkfiles = ["quote.png", "quote.webp", "quote.html"]
-
+        fromname = "No name"
         # First message
-        fwd = reply.fwd_from  # Entity getter
         fromid = None
+        fwd = reply.fwd_from  # Entity getter
         if fwd:
-            if fwd.from_id:
-                fromid = reply.forward.sender
-            elif fwd.channel_id:
-                fromid = reply.forward.chat
-        else:
-            fromid = reply.sender
-        fromname = "No name"  # Name getter
-        try:
-            fromname = fromid.title
-        except AttributeError:
-            fromname = fwd.from_name if fwd and fwd.from_name else fromid.first_name
+			user = reply.forward.sender
+			channel = reply.forward.chat
+            fromid = user or channel
+		else:
+			user = reply.sender
+            channel = None
+			fromid = user
+        fromname = user.first_name if user else channel.title
         rtext = None
         rname = None
         if reply.is_reply:
@@ -122,25 +119,22 @@ class QuoteBuilderMod(loader.Module):
         for msg in messages:
             # Match prev and cur message entities
             fwd = msg.fwd_from
-            fromid = None  # Get entity
+            fromid = None
             if fwd:
-                if fwd.from_id:
-                    fromid = msg.forward.sender
-                elif fwd.channel_id:
-                    fromid = msg.forward.chat
-            else:
-                fromid = msg.sender
+    			user = msg.forward.sender
+    			channel = msg.forward.chat
+                fromid = user or channel
+	    	else:
+		    	user = msg.sender
+                channel = None
+			    fromid = user
             if not (fromid == prevsender):  # Save prev message
                 html += self.create_with_name(text, fromname, pic,
                                               fromid.id % 7 if fromid else 0, rtext, rname)
             else:
                 html += self.create_without_name(text, rtext, rname)
             # Start creating cur message
-            fromname = "No name"  # Get name
-            try:
-                fromname = fromid.title
-            except AttributeError:
-                fromname = fwd.from_name if fwd and fwd.from_name else fromid.first_name
+            fromname = user.first_name if user else channel.title # Get name
             rtext = None
             rname = None
             if msg.is_reply:
