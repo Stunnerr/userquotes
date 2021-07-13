@@ -37,7 +37,17 @@ class QuoteBuilderMod(loader.Module):
         "xvfb": ""
     }
 
-    def create_without_name(self, text, rtext=None, rname=None):
+    def create_first(self, text, name, num=0, rtext=None, rname=None):
+        msg = '<div class="message">\n'
+        msg += f'<div class="sender c{num}">{name}</div>\n'
+        if rtext is not None and rname is not None:
+            msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
+        msg += f'<div class="text">{text}</div>'
+        msg += '</div>\n'
+        return msg
+        # raise NotImplementedError()
+
+    def create_middle(self, text, rtext=None, rname=None):
         msg = '<div class="message">\n'
         if rtext is not None and rname is not None:
             msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
@@ -45,7 +55,18 @@ class QuoteBuilderMod(loader.Module):
         return msg
         # raise NotImplementedError()
 
-    def create_with_name(self, text, name, pic, num=0, rtext=None, rname=None):
+    def create_last(self, text, pic, rtext=None, rname=None):
+        msg = '<div class="message">\n'
+        if rtext is not None and rname is not None:
+            msg += f'<div class="reply"><div class="rname">{rname}</div><div class="text">{rtext}</div></div>'
+        msg += f'<div class="text">{text}</div>'
+        msg += f'<img src="{pic}" class="avatar">\n'
+        msg += self.arrow
+        msg += '</div>\n'
+        return msg
+        # raise NotImplementedError()
+
+    def create_one(self, text, name, pic, num=0, rtext=None, rname=None):
         msg = '<div class="message">\n'
         msg += f'<div class="sender c{num}">{name}</div>\n'
         if rtext is not None and rname is not None:
@@ -103,7 +124,7 @@ class QuoteBuilderMod(loader.Module):
             user = reply.sender
             channel = None
             fromid = user
-        fromname = user.first_name if user else channel.title if channel else fwd.from_name
+        fromname = f"{user.first_name} {user.last_name or ''}" if user else channel.title if channel else fwd.from_name
         rtext = None
         rname = None
         if reply.is_reply:
@@ -115,6 +136,7 @@ class QuoteBuilderMod(loader.Module):
         pic = await self.get_avatar(fromid, fromname)
         junkfiles.append(pic)
         # Other messages
+        samecnt = 1
         messages = await client.get_messages(reply.chat, min_id=reply.id, limit=count, reverse=True)
         for msg in messages:
             # Match prev and cur message entities
@@ -129,12 +151,19 @@ class QuoteBuilderMod(loader.Module):
                 channel = None
                 fromid = user
             if not (fromid == prevsender):  # Save prev message
-                html += self.create_with_name(text, fromname, pic,
-                                              fromid.id % 7 if fromid else 0, rtext, rname)
+                if samecnt > 1:
+                    html += self.create_last(text, pic, rtext, rname)
+                else:
+                    html += self.create_one(text, fromname, pic, prevsender.id % 7 if prevsender else 0, rtext, rname)
+                samecnt = 1
             else:
-                html += self.create_without_name(text, rtext, rname)
+                if samecnt > 1:
+                    html += self.create_middle(text, rtext, rname)
+                else:
+                    html += self.create_first(text, fromname, prevsender.id % 7 if prevsender else 0, rtext, rname)
+                samecnt += 1
             # Start creating cur message
-            fromname = user.first_name if user else channel.title if channel else fwd.from_name  # Get name
+            fromname = f"{user.first_name} {user.last_name or ''}" if user else channel.title if channel else fwd.from_name  # Get name
             rtext = None
             rname = None
             if msg.is_reply:
@@ -145,16 +174,18 @@ class QuoteBuilderMod(loader.Module):
             junkfiles.append(pic)
             text = "<br/>".join(msg.text.splitlines())
             prevsender = fromid
-        html += self.create_with_name(text, fromname, pic,
-                                      fromid.id % 7 if fromid else 0, rtext, rname)
+        if samecnt > 1:
+            html += self.create_last(text, pic, rtext, rname)
+        else:
+            html += self.create_one(text, fromname, pic, fromid.id % 7 if fromid else 0, rtext, rname)
         html += "</body></html>"
         open("quote.html", "w").write(html)
         try:
             imgkit.from_file("quote.html", "quote.png",
                              options=self.wk_options)
         except Exception as e:
-            if "ProtocolUnknownError" not in str(e):
-                raise e
+            # if "ProtocolUnknownError" not in str(e):
+            raise e
         img = Image.open("quote.png").convert("RGBA")
         img = img.crop(img.getbbox())
         print(img.size)
