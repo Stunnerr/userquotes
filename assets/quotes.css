@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cousine&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap');
 body {
   padding-bottom: 20px;
 }
@@ -34,7 +35,7 @@ body {
   max-width: 320px;
   min-width: 10px;
   width: max-content;
-  font-family: 'Noto Sans', 'Open Sans', sans-serif;
+  font-family: 'Noto Sans', 'Open Sans', 'Roboto', 'Noto Color Emoji', sans-serif;
   font-size: 20px;
 }
 
